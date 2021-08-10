@@ -1,3 +1,4 @@
+import 'package:eventapp/componentUI/chatMessagePage.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import 'package:google_fonts/google_fonts.dart';
@@ -67,6 +68,16 @@ class _ChatPageState extends State<ChatPage> {
                       ],
                     ),
                   )),
+              onTap: () {
+                Navigator.push(
+                  context,
+                  MaterialPageRoute(
+                      builder: (context) => ChatMessageBox(
+                            name: 'Aninda',
+                            numberGroupChat: '001',
+                          )),
+                );
+              },
             ),
             InkWell(
               child: Card(
@@ -96,6 +107,16 @@ class _ChatPageState extends State<ChatPage> {
                       ],
                     ),
                   )),
+              onTap: () {
+                Navigator.push(
+                  context,
+                  MaterialPageRoute(
+                      builder: (context) => ChatMessageBox(
+                            name: 'Jamal',
+                            numberGroupChat: '002',
+                          )),
+                );
+              },
             )
           ],
         ),

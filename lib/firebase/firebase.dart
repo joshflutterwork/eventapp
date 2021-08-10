@@ -26,6 +26,31 @@ class FirebaseDB {
     }
   }
 
+  Stream<QuerySnapshot> streamChatMessage(String groupChat) {
+    try {
+      return FirebaseFirestore.instance
+          .collection("groupchatlist")
+          .doc(groupChat)
+          .collection("chat")
+          .orderBy('created_at', descending: true)
+          .snapshots();
+    } catch (e) {
+      return e.message;
+    }
+  }
+
+  addChat(String groupChat, Map<String, dynamic> data) {
+    CollectionReference newMessage = FirebaseFirestore.instance
+        .collection("groupchatlist")
+        .doc(groupChat)
+        .collection("chat");
+
+    return newMessage
+        .add(data)
+        .then((value) => print("Message Added"))
+        .catchError((error) => print("error"));
+  }
+
   Future uploadFileToStorage(File file, String name) async {
     try {
       firebaseStorage.Reference firebaseStorageRef =
