@@ -1,3 +1,5 @@
+import 'dart:io';
+
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:rxdart/rxdart.dart';
 import 'package:firebase_storage/firebase_storage.dart' as firebaseStorage;
@@ -22,6 +24,27 @@ class FirebaseDB {
     } catch (e) {
       return e.message.toString();
     }
+  }
+
+  Future uploadFileToStorage(File file, String name) async {
+    try {
+      firebaseStorage.Reference firebaseStorageRef =
+          storage.ref().child('eventpicture/$name');
+      firebaseStorage.UploadTask uploadTask = firebaseStorageRef.putFile(file);
+      uploadTask.whenComplete(() => {print('complete')});
+    } catch (e) {
+      print(e);
+    }
+  }
+
+  addEvent(Map<String, dynamic> data) {
+    CollectionReference newMessage =
+        FirebaseFirestore.instance.collection('event');
+
+    return newMessage
+        .add(data)
+        .then((value) => print("Message Added"))
+        .catchError((error) => print("error"));
   }
 }
 
