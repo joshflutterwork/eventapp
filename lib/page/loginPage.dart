@@ -18,74 +18,80 @@ class _LoginPageState extends State<LoginPage> {
     return SafeArea(
       child: Scaffold(
           backgroundColor: Colors.black,
-          body: Column(
-            mainAxisAlignment: MainAxisAlignment.spaceAround,
-            children: [
-              Container(
-                padding: EdgeInsets.only(top: 20),
-                child: Image.asset('assets/logo.png'),
-              ),
-              Container(
-                width: MediaQuery.of(context).size.width,
-                margin: EdgeInsets.only(top: 50),
-                padding: EdgeInsets.symmetric(horizontal: 50, vertical: 8),
-                child: ElevatedButton(
-                    style: ElevatedButton.styleFrom(
-                        padding:
-                            EdgeInsets.symmetric(vertical: 12, horizontal: 16),
-                        elevation: 4,
-                        shape: RoundedRectangleBorder(
-                            borderRadius: BorderRadius.circular(30)),
-                        primary: Colors.white,
-                        shadowColor: Colors.white),
-                    onPressed: () async {
-                      _currentUser = await _googleSignIn.signIn();
+          body: Container(
+            decoration: BoxDecoration(
+                image: DecorationImage(
+                    image: AssetImage('assets/backgroundlogin.png'),
+                    fit: BoxFit.cover)),
+            child: Column(
+              mainAxisAlignment: MainAxisAlignment.spaceAround,
+              children: [
+                Container(
+                  padding: EdgeInsets.only(top: 100),
+                  child: Image.asset('assets/logo.png'),
+                ),
+                Container(
+                  width: MediaQuery.of(context).size.width,
+                  margin: EdgeInsets.only(top: 0),
+                  padding: EdgeInsets.symmetric(horizontal: 50, vertical: 8),
+                  child: ElevatedButton(
+                      style: ElevatedButton.styleFrom(
+                          padding: EdgeInsets.symmetric(
+                              vertical: 12, horizontal: 16),
+                          elevation: 4,
+                          shape: RoundedRectangleBorder(
+                              borderRadius: BorderRadius.circular(30)),
+                          primary: Colors.white,
+                          shadowColor: Colors.white),
+                      onPressed: () async {
+                        _currentUser = await _googleSignIn.signIn();
 
-                      final GoogleSignInAuthentication googleAuth =
-                          await _currentUser.authentication;
+                        final GoogleSignInAuthentication googleAuth =
+                            await _currentUser.authentication;
 
-                      // Create a new credential
-                      final credential = GoogleAuthProvider.credential(
-                        accessToken: googleAuth.accessToken,
-                        idToken: googleAuth.idToken,
-                      );
-
-                      // Once signed in, return the UserCredential
-                      await FirebaseAuth.instance
-                          .signInWithCredential(credential);
-                      if (_currentUser != null) {
-                        Navigator.push(
-                          context,
-                          MaterialPageRoute(
-                              builder: (context) => NavigatorButton()),
+                        // Create a new credential
+                        final credential = GoogleAuthProvider.credential(
+                          accessToken: googleAuth.accessToken,
+                          idToken: googleAuth.idToken,
                         );
-                      }
-                      print(_currentUser.displayName);
-                    },
-                    child: Row(
-                      mainAxisAlignment: MainAxisAlignment.center,
-                      children: [
-                        Container(
-                          child: Image.asset(
-                            'assets/google.png',
-                            height: 50,
-                            width: 50,
+
+                        // Once signed in, return the UserCredential
+                        await FirebaseAuth.instance
+                            .signInWithCredential(credential);
+                        if (_currentUser != null) {
+                          Navigator.push(
+                            context,
+                            MaterialPageRoute(
+                                builder: (context) => NavigatorButton()),
+                          );
+                        }
+                        print(_currentUser.displayName);
+                      },
+                      child: Row(
+                        mainAxisAlignment: MainAxisAlignment.center,
+                        children: [
+                          Container(
+                            child: Image.asset(
+                              'assets/google.png',
+                              height: 50,
+                              width: 50,
+                            ),
                           ),
-                        ),
-                        Container(
-                          child: Text(
-                            'Sign In',
-                            style: GoogleFonts.quicksand(
-                                letterSpacing: 2.5,
-                                color: Colors.black,
-                                fontSize: 16,
-                                fontWeight: FontWeight.w900),
+                          Container(
+                            child: Text(
+                              'Sign In',
+                              style: GoogleFonts.quicksand(
+                                  letterSpacing: 2.5,
+                                  color: Colors.black,
+                                  fontSize: 16,
+                                  fontWeight: FontWeight.w900),
+                            ),
                           ),
-                        ),
-                      ],
-                    )),
-              ),
-            ],
+                        ],
+                      )),
+                ),
+              ],
+            ),
           )),
     );
   }

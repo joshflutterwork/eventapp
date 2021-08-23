@@ -5,6 +5,10 @@ import 'package:eventapp/page/profile.dart';
 import 'package:flutter/material.dart';
 
 class NavigatorButton extends StatefulWidget {
+  final int page;
+
+  NavigatorButton({this.page});
+
   @override
   _NavigatorButtonState createState() => _NavigatorButtonState();
 }
@@ -13,6 +17,7 @@ class _NavigatorButtonState extends State<NavigatorButton> {
   PageController _pageController =
       PageController(initialPage: 0, keepPage: false);
   int bottomSelectedIndex = 0;
+  int pageDirect;
 
   Future bottomTapped(int index) async {
     bottomSelectedIndex = index;
@@ -20,6 +25,17 @@ class _NavigatorButtonState extends State<NavigatorButton> {
         duration: Duration(milliseconds: 500), curve: Curves.ease);
 
     setState(() {});
+  }
+
+  @override
+  void initState() {
+    super.initState();
+    if (widget.page != null) {
+      pageDirect = widget.page;
+      WidgetsBinding.instance.addPostFrameCallback((_) {
+        _pageController.jumpToPage(widget.page);
+      });
+    }
   }
 
   List<BottomNavigationBarItem> buildBottomNavBarItems() {
