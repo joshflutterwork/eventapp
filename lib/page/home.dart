@@ -135,6 +135,11 @@ class _HomePageState extends State<HomePage> {
                                         .map((DocumentSnapshot document) =>
                                             document.data())
                                         .toList();
+
+                                    List<String> listID = snapshot.data.docs
+                                        .map((DocumentSnapshot document) =>
+                                            document.id)
+                                        .toList();
                                     return ListView.builder(
                                         shrinkWrap: true,
                                         itemCount: data.length,
@@ -142,7 +147,8 @@ class _HomePageState extends State<HomePage> {
                                           return Container(
                                               width: 400,
                                               child: CardTicket(
-                                                  data: data[index]));
+                                                  data: data[index],
+                                                  id: listID[index]));
                                         });
                                   }
                                   return Card();

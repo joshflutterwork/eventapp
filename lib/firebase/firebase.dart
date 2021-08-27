@@ -71,6 +71,16 @@ class FirebaseDB {
         .then((value) => print("Message Added"))
         .catchError((error) => print("error"));
   }
+
+  Future deleteEvent(String id) {
+    DocumentReference updates =
+        FirebaseFirestore.instance.collection('event').doc(id);
+
+    return updates
+        .delete()
+        .then((value) => print("Event Deleted"))
+        .catchError((error) => print("Failed to update user: $error"));
+  }
 }
 
 class FirebaseBloc {

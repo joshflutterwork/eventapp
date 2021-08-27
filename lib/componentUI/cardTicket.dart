@@ -5,8 +5,9 @@ import 'package:google_fonts/google_fonts.dart';
 
 class CardTicket extends StatefulWidget {
   Map<String, dynamic> data;
+  String id;
 
-  CardTicket({this.data});
+  CardTicket({this.data, this.id});
   @override
   _CardTicketState createState() => _CardTicketState();
 }
@@ -33,6 +34,7 @@ class _CardTicketState extends State<CardTicket> {
           MaterialPageRoute(
               builder: (context) => DetailTicket(
                     data: widget.data,
+                    id: widget.id,
                   )),
         );
       },

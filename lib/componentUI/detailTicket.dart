@@ -1,11 +1,14 @@
+import 'package:eventapp/componentUI/buttonClose.dart';
 import 'package:eventapp/firebase/firebase.dart';
+import 'package:eventapp/page/home.dart';
 import 'package:flutter/material.dart';
 import 'package:google_fonts/google_fonts.dart';
 
 class DetailTicket extends StatefulWidget {
   final Map<String, dynamic> data;
+  String id;
 
-  DetailTicket({this.data});
+  DetailTicket({this.data, this.id});
   @override
   _DetailTicketState createState() => _DetailTicketState();
 }
@@ -13,6 +16,7 @@ class DetailTicket extends StatefulWidget {
 class _DetailTicketState extends State<DetailTicket> {
   Map<String, dynamic> data;
   FirebaseBloc _firebaseBloc = FirebaseBloc();
+  FirebaseDB firebase = FirebaseDB();
 
   @override
   void initState() {
@@ -28,6 +32,38 @@ class _DetailTicketState extends State<DetailTicket> {
     return Scaffold(
       backgroundColor: Colors.black,
       appBar: AppBar(
+        actions: [
+          IconButton(
+              onPressed: () {
+                showDialog(
+                    context: context,
+                    builder: (_) => SimpleDialog(
+                          contentPadding: EdgeInsets.all(16),
+                          children: [
+                            Container(
+                              padding: EdgeInsets.only(bottom: 10),
+                              child: Text('Delete Event ?'),
+                            ),
+                            buttonCloseSubmit(
+                                submitText: 'Delete',
+                                close: () {
+                                  Navigator.pop(context);
+                                },
+                                submit: () async {
+                                  await firebase.deleteEvent(widget.id);
+
+                                  Navigator.pop(context);
+                                  Navigator.push(
+                                    context,
+                                    MaterialPageRoute(
+                                        builder: (context) => HomePage()),
+                                  );
+                                })
+                          ],
+                        ));
+              },
+              icon: Icon(Icons.delete_outline))
+        ],
         backgroundColor: Colors.black,
         elevation: 0,
         title: Text('Detail Ticket'),
@@ -39,8 +75,7 @@ class _DetailTicketState extends State<DetailTicket> {
       ),
       body: Container(
         padding: EdgeInsets.all(10),
-        child: Column(
-          crossAxisAlignment: CrossAxisAlignment.start,
+        child: ListView(
           children: [
             Container(
               alignment: Alignment.center,

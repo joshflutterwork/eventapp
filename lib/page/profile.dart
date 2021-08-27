@@ -1,6 +1,7 @@
 import 'package:eventapp/componentUI/cardTicket.dart';
 import 'package:eventapp/firebase/firebase.dart';
 import 'package:eventapp/page/chat.dart';
+import 'package:eventapp/page/loginPage.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import 'package:google_fonts/google_fonts.dart';
@@ -117,6 +118,29 @@ class _ProfilePageState extends State<ProfilePage> {
                   ),
                 ],
               ),
+            ),
+            Container(
+              height: 30,
+              width: MediaQuery.of(context).size.width,
+              padding: EdgeInsets.only(left: 18, right: 18),
+              child: ElevatedButton(
+                  style: ButtonStyle(
+                      shape: MaterialStateProperty.all<OutlinedBorder>(
+                          RoundedRectangleBorder(
+                              side: BorderSide(width: 1),
+                              borderRadius: new BorderRadius.circular(20.0))),
+                      backgroundColor:
+                          MaterialStateProperty.all<Color>(Colors.white)),
+                  onPressed: () async {
+                    await auth.signOut();
+
+                    Navigator.push(
+                      context,
+                      MaterialPageRoute(builder: (context) => LoginPage()),
+                    );
+                  },
+                  child: Text('Sign Out',
+                      style: TextStyle(color: Colors.black, fontSize: 14))),
             ),
             SizedBox(
               height: 20,
